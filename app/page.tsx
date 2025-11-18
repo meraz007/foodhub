@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Hero from '@/components/home/Hero';
 import FeaturedCategories from '@/components/home/FeaturedCategories';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
+import BestSelling from '@/components/home/BestSelling';
+import CategoryShowcase from '@/components/home/CategoryShowcase';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
 
 export const metadata: Metadata = {
@@ -15,6 +17,24 @@ export default function Home() {
       <Hero />
       <FeaturedCategories />
       <FeaturedProducts />
+      <BestSelling />
+      
+      {/* Top Selling Category 1: Korean Ramen */}
+      <CategoryShowcase 
+        categorySlug="korean-ramen"
+        categoryName="Korean Ramen"
+        categoryIcon="🍜"
+        backgroundColor="bg-white"
+      />
+      
+      {/* Top Selling Category 2: Milk Chocolate */}
+      <CategoryShowcase 
+        categorySlug="milk-chocolate"
+        categoryName="Milk Chocolate"
+        categoryIcon="🍫"
+        backgroundColor="bg-gray-50"
+      />
+      
       <WhyChooseUs />
     </div>
   );

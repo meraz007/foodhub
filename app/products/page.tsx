@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Container from '@/components/ui/Container';
 import ProductGrid from '@/components/product/ProductGrid';
+import PriceFilter from '@/components/ui/PriceFilter';
 import { products } from '@/data/products';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -27,6 +28,8 @@ const brands = [
 export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [shuffledProducts, setShuffledProducts] = useState(products);
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(Infinity);
 
   // Shuffle products on mount
   useEffect(() => {
@@ -34,11 +37,22 @@ export default function ProductsPage() {
     setShuffledProducts(shuffled);
   }, []);
 
+  const handlePriceFilter = (min: number, max: number) => {
+    setPriceMin(min);
+    setPriceMax(max);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  // Filter products by price
+  const filteredProducts = shuffledProducts.filter(
+    (product) => product.price >= priceMin && product.price <= priceMax
+  );
+
   // Calculate pagination
-  const totalPages = Math.ceil(shuffledProducts.length / PRODUCTS_PER_PAGE);
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
-  const currentProducts = shuffledProducts.slice(startIndex, endIndex);
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
@@ -102,7 +116,7 @@ export default function ProductsPage() {
             All Products
           </h1>
           <p className="text-gray-600 text-lg">
-            Browse our complete collection of {shuffledProducts.length} products
+            Browse our complete collection of {products.length} products
           </p>
         </div>
 
@@ -128,20 +142,41 @@ export default function ProductsPage() {
 
         {/* Products Grid */}
         <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-gray-600">
-              Showing {startIndex + 1}-{Math.min(endIndex, shuffledProducts.length)} of {shuffledProducts.length} products
-            </p>
-            <p className="text-gray-600">
-              Page {currentPage} of {totalPages}
-            </p>
+          <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+            <div className="flex items-center gap-4">
+              <PriceFilter
+                onFilterChange={handlePriceFilter}
+                currentMin={priceMin}
+                currentMax={priceMax}
+              />
+              <p className="text-gray-600">
+                {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
+              </p>
+            </div>
+            {filteredProducts.length > 0 && (
+              <p className="text-gray-600">
+                Showing {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length} | Page {currentPage} of {totalPages}
+              </p>
+            )}
           </div>
 
-          <ProductGrid products={currentProducts} />
+          {currentProducts.length > 0 ? (
+            <ProductGrid products={currentProducts} />
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-xl mb-4">No products found in this price range</p>
+              <button
+                onClick={() => handlePriceFilter(0, Infinity)}
+                className="px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
+              >
+                Clear Filter
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {totalPages > 1 && currentProducts.length > 0 && (
           <div className="flex items-center justify-center gap-2">
             {/* Previous Button */}
             <button
