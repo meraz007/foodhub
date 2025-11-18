@@ -1,0 +1,78 @@
+import { Category } from '@/lib/types';
+
+export const categories: Category[] = [
+  {
+    id: '1',
+    name: 'Chocolate',
+    slug: 'chocolate',
+    description: 'Premium imported chocolates from around the world',
+    image: '/images/categories/chocolate.jpg',
+    icon: '🍫',
+    productCount: 24,
+  },
+  {
+    id: '2',
+    name: 'Milk',
+    slug: 'milk',
+    description: 'Fresh and long-life milk products',
+    image: '/images/categories/milk.jpg',
+    icon: '🥛',
+    productCount: 18,
+  },
+  {
+    id: '3',
+    name: 'Coffee',
+    slug: 'coffee',
+    description: 'Premium coffee beans and instant coffee',
+    image: '/images/categories/coffee.jpg',
+    icon: '☕',
+    productCount: 32,
+  },
+  {
+    id: '4',
+    name: 'Snacks',
+    slug: 'snacks',
+    description: 'Delicious snacks from international brands',
+    image: '/images/categories/snacks.jpg',
+    icon: '🍿',
+    productCount: 45,
+  },
+  {
+    id: '5',
+    name: 'Ramen',
+    slug: 'ramen',
+    description: 'Authentic Japanese and Korean instant ramen',
+    image: '/images/categories/ramen.jpg',
+    icon: '🍜',
+    productCount: 28,
+  },
+  {
+    id: '6',
+    name: 'Biscuits',
+    slug: 'biscuits',
+    description: 'Crispy and delicious biscuits and cookies',
+    image: '/images/categories/biscuits.jpg',
+    icon: '🍪',
+    productCount: 36,
+  },
+  {
+    id: '7',
+    name: 'Candy',
+    slug: 'candy',
+    description: 'Sweet treats and candies for all ages',
+    image: '/images/categories/candy.jpg',
+    icon: '🍬',
+    productCount: 42,
+  },
+  {
+    id: '8',
+    name: 'Drinks',
+    slug: 'drinks',
+    description: 'Refreshing beverages and soft drinks',
+    image: '/images/categories/drinks.jpg',
+    icon: '🥤',
+    productCount: 38,
+  },
+];
+
+
