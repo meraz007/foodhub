@@ -4,6 +4,7 @@ import FeaturedCategories from '@/components/home/FeaturedCategories';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import BestSelling from '@/components/home/BestSelling';
 import CategoryShowcase from '@/components/home/CategoryShowcase';
+import BrandMarquee from '@/components/home/BrandMarquee';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function Home() {
         backgroundColor="bg-gray-50"
       />
       
+      <BrandMarquee />
       <WhyChooseUs />
     </div>
   );

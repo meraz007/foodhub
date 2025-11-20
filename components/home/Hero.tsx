@@ -8,7 +8,7 @@ import { ShoppingBag, Truck, Shield } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-primary-50 via-white to-accent/5 py-16 md:py-24 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-primary-50 via-white to-accent/5 py-8 md:py-12 overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-200/20 rounded-full blur-3xl" />
@@ -115,32 +115,17 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative hidden lg:block"
           >
-            <div className="relative w-full aspect-square">
-              <motion.div
-                animate={{
-                  y: [0, -20, 0],
+            <div className="relative w-full h-[500px] bg-gradient-to-br from-gray-50 to-white rounded-3xl overflow-hidden shadow-2xl">
+              <img
+                src="https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=800&h=800&fit=crop"
+                alt="Premium Imported Foods"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = 'https://via.placeholder.com/800x800/F3F4F6/6B7280?text=Premium+Foods';
                 }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="absolute top-0 right-0 w-48 h-48 bg-accent/20 rounded-3xl rotate-12"
               />
-              <motion.div
-                animate={{
-                  y: [0, 20, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="absolute bottom-0 left-0 w-64 h-64 bg-primary-200/30 rounded-3xl -rotate-12"
-              />
-              <div className="absolute inset-0 flex items-center justify-center text-9xl">
-                🍫
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
           </motion.div>
         </div>

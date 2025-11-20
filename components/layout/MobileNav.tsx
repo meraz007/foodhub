@@ -1,17 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import { X, ChevronDown } from 'lucide-react';
+import { X, ChevronDown, UserPlus, Package, ShoppingBag, Ticket, Heart, Settings, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { megaMenuCategories } from '@/data/megaMenuCategories';
 
 interface MobileNavProps {
   isOpen: boolean;
   onClose: () => void;
+  onLoginClick?: () => void;
+  user?: { name: string; email: string } | null;
+  onLogout?: () => void;
 }
 
-export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
+export default function MobileNav({ isOpen, onClose, onLoginClick, user, onLogout }: MobileNavProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -60,6 +72,96 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
           {/* Navigation Links */}
           <nav className="flex-1 overflow-y-auto py-6">
             <div className="px-6 space-y-2">
+              {/* User Info or Auth Button */}
+              {user ? (
+                <>
+                  {/* User Profile Card */}
+                  <div className="mb-4 bg-gradient-to-r from-accent to-primary-500 rounded-xl p-4 text-white">
+                    <div className="flex items-center gap-3">
+                      <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                        {getInitials(user.name)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-lg truncate">{user.name}</p>
+                        <p className="text-sm text-white/80 truncate">{user.email}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* User Menu Items */}
+                  <div className="mb-4 space-y-1">
+                    <Link
+                      href="/orders"
+                      onClick={onClose}
+                      className="flex items-center gap-3 py-3 px-4 hover:bg-gray-50 rounded-xl transition-colors"
+                    >
+                      <Package className="w-5 h-5 text-blue-600" />
+                      <span className="font-medium text-gray-700">My Orders</span>
+                    </Link>
+
+                    <Link
+                      href="/orders/active"
+                      onClick={onClose}
+                      className="flex items-center gap-3 py-3 px-4 hover:bg-gray-50 rounded-xl transition-colors"
+                    >
+                      <ShoppingBag className="w-5 h-5 text-green-600" />
+                      <span className="font-medium text-gray-700">Active Orders</span>
+                    </Link>
+
+                    <Link
+                      href="/vouchers"
+                      onClick={onClose}
+                      className="flex items-center gap-3 py-3 px-4 hover:bg-gray-50 rounded-xl transition-colors"
+                    >
+                      <Ticket className="w-5 h-5 text-purple-600" />
+                      <span className="font-medium text-gray-700">Vouchers</span>
+                    </Link>
+
+                    <Link
+                      href="/wishlist"
+                      onClick={onClose}
+                      className="flex items-center gap-3 py-3 px-4 hover:bg-gray-50 rounded-xl transition-colors"
+                    >
+                      <Heart className="w-5 h-5 text-red-600" />
+                      <span className="font-medium text-gray-700">Wishlist</span>
+                    </Link>
+
+                    <Link
+                      href="/account/settings"
+                      onClick={onClose}
+                      className="flex items-center gap-3 py-3 px-4 hover:bg-gray-50 rounded-xl transition-colors"
+                    >
+                      <Settings className="w-5 h-5 text-gray-600" />
+                      <span className="font-medium text-gray-700">Settings</span>
+                    </Link>
+
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onLogout?.();
+                      }}
+                      className="w-full flex items-center gap-3 py-3 px-4 hover:bg-red-50 rounded-xl transition-colors text-red-600"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span className="font-medium">Logout</span>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="mb-4">
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onLoginClick?.();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-accent to-primary-500 text-white rounded-xl transition-all font-semibold hover:shadow-lg"
+                  >
+                    <UserPlus className="w-5 h-5" />
+                    <span>Login / Sign Up</span>
+                  </button>
+                </div>
+              )}
+
               <Link
                 href="/"
                 onClick={onClose}

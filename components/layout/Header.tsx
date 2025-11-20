@@ -1,19 +1,34 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X, UserPlus } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Container from '@/components/ui/Container';
 import SearchBar from '@/components/ui/SearchBar';
 import { useCartStore } from '@/lib/store/cart-store';
 import MobileNav from './MobileNav';
 import MegaMenu from './MegaMenu';
+import AuthModal from '@/components/ui/AuthModal';
+import UserDropdown from '@/components/ui/UserDropdown';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const itemCount = useCartStore((state) => state.getItemCount());
+
+  const handleLogout = () => {
+    setUser(null);
+    // Add your logout logic here (clear tokens, etc.)
+  };
+
+  const handleLoginSuccess = (userData: { name: string; email: string }) => {
+    setUser(userData);
+    setIsAuthModalOpen(false);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -65,7 +80,23 @@ export default function Header() {
               </div>
 
               {/* Right Section */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                {/* User Dropdown or Login/Signup Button */}
+                {user ? (
+                  <UserDropdown user={user} onLogout={handleLogout} />
+                ) : (
+                  <button
+                    onClick={() => {
+                      setAuthModalTab('login');
+                      setIsAuthModalOpen(true);
+                    }}
+                    className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-accent to-primary-500 text-white hover:shadow-lg rounded-lg transition-all font-medium hover:scale-105"
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    <span>Login / Sign Up</span>
+                  </button>
+                )}
+
                 {/* Cart */}
                 <Link
                   href="/cart"
@@ -132,7 +163,24 @@ export default function Header() {
       </header>
 
       {/* Mobile Navigation Drawer */}
-      <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+      <MobileNav
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        onLoginClick={() => {
+          setAuthModalTab('login');
+          setIsAuthModalOpen(true);
+        }}
+        user={user}
+        onLogout={handleLogout}
+      />
+
+      {/* Authentication Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialTab={authModalTab}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </>
   );
 }
