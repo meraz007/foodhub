@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 mt-20">
       <Container>
-        <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* About Section */}
           <div>
             <h3 className="text-white text-xl font-bold font-display mb-4">FoodHub</h3>
@@ -54,9 +54,36 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          {/* Our Policies */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Our Policies</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/terms" className="hover:text-accent transition-colors">
+                  Terms of Use
+                </Link>
+              </li>
+              <li>
+                <Link href="/refund" className="hover:text-accent transition-colors">
+                  Refund Policy
+                </Link>
+              </li>
               <li>
                 <Link href="/privacy" className="hover:text-accent transition-colors">
                   Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/shipping" className="hover:text-accent transition-colors">
+                  Shipping Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/returns" className="hover:text-accent transition-colors">
+                  Returns & Exchanges
                 </Link>
               </li>
             </ul>
